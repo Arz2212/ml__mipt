@@ -25,8 +25,6 @@ fn gen_semp(n: usize) -> Vec<D3point>{
         v.push(g);
     }
     v
-
-
 }
 
  
@@ -107,7 +105,7 @@ fn plot_results(v: &[D3point], bet: &DMatrix<f64>) -> Result<(), Box<dyn std::er
     // 1. Отрисовка исходных точек 3D (синие точки)
     // В Plotters координаты передаются в порядке (X, Z, Y) для правильной проекции осей
     chart.draw_series(
-        v.iter().map(|p| Circle::new((p.x, p.z, p.y), 3, BLUE.filled()))
+        v.iter().map(|p| Circle::new((p.x, p.z, p.y), 2, BLUE.filled()))
     )?;
 
     // 2. Отрисовка регрессионной плоскости z = b0 + b1*x + b2*y
@@ -146,16 +144,16 @@ fn plot_results(v: &[D3point], bet: &DMatrix<f64>) -> Result<(), Box<dyn std::er
 }
 
 fn main() {
-    let semp: Vec<D3point> = gen_semp(1000000);
-     let bet1: DMatrix<f64> = rid_reg(&semp, 1000000);
-    let bet: DMatrix<f64> = ransac_rid_reg(&semp, 1000000, 0.1);
+    let semp: Vec<D3point> = gen_semp(100000);
+     let bet1: DMatrix<f64> = rid_reg(&semp, 100000);
+    let bet: DMatrix<f64> = ransac_rid_reg(&semp, 100000, 0.1);
     let  _f = plot_results(&semp, &bet);
-    let semp2: Vec<D3point> = gen_semp(1000000);
-    println!("{}", mse_test(&semp, 1000000, &bet));
-    println!("{}", mse_test(&semp, 1000000, &bet1));
+    let semp2: Vec<D3point> = gen_semp(100000);
+    println!("{}", mse_test(&semp, 100000, &bet));
+    println!("{}", mse_test(&semp, 100000, &bet1));
 
-    println!("{}", mse_test(&semp2, 1000000, &bet));
-    println!("{}", mse_test(&semp2, 1000000, &bet1));
+    println!("{}", mse_test(&semp2, 100000, &bet));
+    println!("{}", mse_test(&semp2, 100000, &bet1));
 
 
 }
